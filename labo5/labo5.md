@@ -21,6 +21,11 @@ year:
 | Host in 12-host network      | 172.20.33.163                         |
 | Uplink address on ISP router | 172.20.33.254/<Smallest SN possible> |
 
+Run om alles te zien
+```
+kathara list
+```
+
 
 ### Subnetworks calculated
 > Fill in the resulting network information in the table below; use the format as in the theoretical exercises (Linux differs on some points in it’s display).
@@ -35,7 +40,7 @@ year:
 ### Setting up ip addresses
 
 #### Workstations
-In workstation1:
+In workstation1 (ws1)
 ```
 root@ws1:/# ip address add 172.20.33.76/27 dev eth0
 root@ws1:/# ip route add default via 172.20.33.65
@@ -44,7 +49,7 @@ default via 172.20.33.65 dev eth0
 172.20.33.64/27 dev eth0 proto kernel scope link src 172.20.33.76 
 ```
 
-In workstation2:
+In workstation2 (ws2)
 ```
 root@ws2:/# ip address add 172.20.33.87/27 dev eth0
 root@ws2:/# ip route add default via 172.20.33.65
@@ -66,12 +71,12 @@ PING 172.20.33.65 (172.20.33.65) 56(84) bytes of data.
 
 #### Server park
 
-In router
+In router (rout)
 ```
 root@rout:/# ip a a 172.20.33.41/29 dev eth1
 ```
 
-In web (ook hier eth0 zie ip link show command)
+In web (web) (ook hier eth0 zie ip link show command)
 ```
 root@web:/# ip link show
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
@@ -82,18 +87,18 @@ root@web:/# ip a a 172.20.33.42/29 dev eth0
 root@web:/# ip route add default via 172.20.33.41
 ```
 
-In FTP
+In FTP (ftp)
 ```
 root@ftp:/# ip a a 172.20.33.44/29 dev eth0
 root@ftp:/# ip r a default via 172.20.33.41
 ```
 
-#### Visitor subnet	
+#### Visitor subnet
 
-In FTP
+In Visit (visit)
 ```
-root@ftp:/# ip a a 172.20.33.163/28 dev eth0
-root@ftp:/# ip r a default via 172.20.33.161
+root@visit:/# ip a a 172.20.33.163/28 dev eth0
+root@visit:/# ip r a default via 172.20.33.161
 ```
 
 In router
@@ -103,11 +108,25 @@ root@rout:/# ip a a 172.20.33.161/28 dev eth2
 //root@rout:/# ip addr del 172.20.33.160/28 dev eth2
 ```
 
-#### Extra router
+#### Extra router (rout)
 
 ```
 root@rout:/# ip a a 172.20.33.253/30 dev eth3
 root@rout:/# ip r a default via 172.20.33.254
+```
+
+#### ISP router (risp)
+
+```
+root@risp:/# ip route add 172.20.33.0/24 via 172.20.33.253
+
+----
+
+root@risp:/# ip r
+default via 172.20.33.250 dev eth1 
+172.20.33.0/24 via 172.20.33.253 dev eth0 
+172.20.33.248/30 dev eth1 proto kernel scope link src 172.20.33.249 
+172.20.33.252/30 dev eth0 proto kernel scope link src 172.20.33.254
 ```
 
 ## Configure the network
