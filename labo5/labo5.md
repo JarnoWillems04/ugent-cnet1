@@ -64,6 +64,30 @@ PING 172.20.33.65 (172.20.33.65) 56(84) bytes of data.
 64 bytes from 172.20.33.65: icmp_seq=3 ttl=64 time=1.12 ms
 ```
 
+#### Server park
+
+In router
+```
+root@rout:/# ip a a 172.20.33.41/29 dev eth1
+```
+
+In web (ook hier eth0 zie ip link show command)
+```
+root@web:/# ip link show
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+13: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether 82:65:f4:4f:02:02 brd ff:ff:ff:ff:ff:ff
+root@web:/# ip a a 172.20.33.42/29 dev eth0
+root@web:/# ip route add default via 172.20.33.41
+```
+
+In FTP
+```
+root@ftp:/# ip a a 172.20.33.44/29 dev eth0
+root@ftp:/# ip r a default via 172.20.33.41
+```
+
 ## Configure the network
 
 ### ... the router
