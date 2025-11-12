@@ -88,6 +88,28 @@ root@ftp:/# ip a a 172.20.33.44/29 dev eth0
 root@ftp:/# ip r a default via 172.20.33.41
 ```
 
+#### Visitor subnet	
+
+In FTP
+```
+root@ftp:/# ip a a 172.20.33.163/28 dev eth0
+root@ftp:/# ip r a default via 172.20.33.161
+```
+
+In router
+```
+root@rout:/# ip a a 172.20.33.161/28 dev eth2
+//Als perongelijk verkeerde:
+//root@rout:/# ip addr del 172.20.33.160/28 dev eth2
+```
+
+#### Extra router
+
+```
+root@rout:/# ip a a 172.20.33.253/30 dev eth3
+root@rout:/# ip r a default via 172.20.33.254
+```
+
 ## Configure the network
 
 ### ... the router
